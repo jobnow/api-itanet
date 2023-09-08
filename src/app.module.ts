@@ -6,16 +6,35 @@ import { ClientesService } from './clientes/clientes.service';
 import { ClientesController } from './clientes/clientes.controller';
 import { DatabaseModule } from './database/database.module';
 import { ClientesModule } from './clientes/clientes.module';
+import { ParceirosModule } from './parceiros/parceiros.module';
 import { ClienteValidator } from './clientes/cliente.validator';
+import { ParceirosService } from './parceiros/parceiros.service';
+import { ParceirosController } from './parceiros/parceiros.controller';
+import { ParceiroValidator } from './parceiros/parceiro.validator';
+import { Parceiro } from './parceiros/parceiro.entity';
+import { ManagersModule } from './managers/managers.module';
+import { Manager } from './managers/manager.entity';
+import { ManagersController } from './managers/managers.controller';
+import { ManagersService } from './managers/managers.service';
+import { ManagerValidator } from './managers/manager.validator';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot(databaseConfig),
-    TypeOrmModule.forFeature([Cliente]),
+    TypeOrmModule.forFeature([Cliente, Parceiro, Manager]),
     DatabaseModule,
     ClientesModule,
+    ParceirosModule,
+    ManagersModule,
   ],
-  controllers: [ClientesController],
-  providers: [ClientesService, ClienteValidator],
+  controllers: [ClientesController, ParceirosController, ManagersController],
+  providers: [
+    ClientesService,
+    ClienteValidator,
+    ParceirosService,
+    ParceiroValidator,
+    ManagersService,
+    ManagerValidator,
+  ],
 })
 export class AppModule {}
