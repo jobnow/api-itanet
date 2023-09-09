@@ -82,7 +82,6 @@ export class ClientesController {
   async login(@Body() loginData: { EMAIL: string; SENHA: string }) {
     const { EMAIL, SENHA } = loginData;
 
-    // Verifique se o email e a senha estão presentes
     if (!EMAIL) {
       return { error: 'O email é obrigatório' };
     }
