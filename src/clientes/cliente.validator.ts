@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Cliente } from './cliente.entity';
-import { isDate, isMobilePhone, isCreditCard } from 'class-validator'; // Importe os validadores
+import { isDate, isMobilePhone, isCreditCard } from 'class-validator';
 
 @Injectable()
 export class ClienteValidator {

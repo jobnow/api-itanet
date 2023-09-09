@@ -1,5 +1,3 @@
-// src/sistema-parceiro/sistema-parceiro.entity.ts
-
 import {
   Entity,
   PrimaryGeneratedColumn,
