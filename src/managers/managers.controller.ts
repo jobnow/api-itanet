@@ -3,6 +3,9 @@ import { DatabaseService } from '../database/database.service';
 import { ManagersService } from './managers.service';
 import { Manager } from './manager.entity';
 import { ManagerValidator } from './manager.validator';
+import * as jwt from 'jsonwebtoken';
+import { config } from 'dotenv';
+config();
 
 @Controller('managers')
 export class ManagersController {
@@ -57,5 +60,34 @@ export class ManagersController {
       message: 'Manager atualizado com sucesso',
       manager: updatedManager,
     };
+  }
+
+  @Post('login')
+  async login(@Body() loginData: { LOGIN: string; PASSWORD: string }) {
+    const { LOGIN, PASSWORD } = loginData;
+
+    if (!LOGIN) {
+      return { error: 'O nome é obrigatório' };
+    }
+
+    if (!PASSWORD) {
+      return { error: 'A senha é obrigatória' };
+    }
+
+    const manager = await this.managersService.findByLoginAndPassword(
+      LOGIN,
+      PASSWORD,
+    );
+
+    if (!manager) {
+      return { error: 'Credenciais inválidas' };
+    }
+
+    jwt.sign({ managerId: manager.ID }, process.env.JWT_SECRET, {
+      expiresIn: '1h',
+    });
+
+    return { message: 'Login bem-sucedido', manager };
+    // res.redirect(302, '/clientes/teste');
   }
 }

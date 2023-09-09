@@ -1,9 +1,20 @@
-import { Controller, Get, Post, Put, Param, Body } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Put,
+  Param,
+  Body,
+  UseGuards,
+} from '@nestjs/common';
 import { DatabaseService } from '../database/database.service';
 import { ClientesService } from './clientes.service';
 import { Cliente } from './cliente.entity';
 import { ClienteValidator } from './cliente.validator';
-
+import * as jwt from 'jsonwebtoken';
+import { config } from 'dotenv';
+import { JwtMiddleware } from '../auth/middleware.config';
+config();
 @Controller('clientes')
 export class ClientesController {
   constructor(
@@ -57,5 +68,43 @@ export class ClientesController {
       message: 'Cliente atualizado com sucesso',
       cliente: updatedCliente,
     };
+  }
+
+  @UseGuards(JwtMiddleware)
+  @Get('teste')
+  async teste() {
+    return {
+      message: 'teste',
+    };
+  }
+
+  @Post('login')
+  async login(@Body() loginData: { EMAIL: string; SENHA: string }) {
+    const { EMAIL, SENHA } = loginData;
+
+    // Verifique se o email e a senha estão presentes
+    if (!EMAIL) {
+      return { error: 'O email é obrigatório' };
+    }
+
+    if (!SENHA) {
+      return { error: 'A senha é obrigatória' };
+    }
+
+    const cliente = await this.clientesService.findByEmailAndPassword(
+      EMAIL,
+      SENHA,
+    );
+
+    if (!cliente) {
+      return { error: 'Credenciais inválidas' };
+    }
+
+    jwt.sign({ clienteId: cliente.ID }, process.env.JWT_SECRET, {
+      expiresIn: '1h',
+    });
+
+    return { message: 'Login bem-sucedido', cliente };
+    // res.redirect(302, '/clientes/teste');
   }
 }

@@ -3,6 +3,9 @@ import { DatabaseService } from '../database/database.service';
 import { ParceirosService } from './parceiros.service';
 import { ParceiroValidator } from './parceiro.validator';
 import { Parceiro } from './parceiro.entity';
+import * as jwt from 'jsonwebtoken';
+import { config } from 'dotenv';
+config();
 
 @Controller('parceiros')
 export class ParceirosController {
@@ -58,5 +61,35 @@ export class ParceirosController {
       message: 'Parceiro atualizado com sucesso',
       parceiro: updatedParceiro,
     };
+  }
+
+  @Post('login')
+  async login(@Body() loginData: { EMAIL: string; SENHA: string }) {
+    const { EMAIL, SENHA } = loginData;
+
+    // Verifique se o email e a senha estão presentes
+    if (!EMAIL) {
+      return { error: 'O email é obrigatório' };
+    }
+
+    if (!SENHA) {
+      return { error: 'A senha é obrigatória' };
+    }
+
+    const parceiro = await this.parceirosService.findByEmailAndPassword(
+      EMAIL,
+      SENHA,
+    );
+
+    if (!parceiro) {
+      return { error: 'Credenciais inválidas' };
+    }
+
+    jwt.sign({ parceiroId: parceiro.ID }, process.env.JWT_SECRET, {
+      expiresIn: '1h',
+    });
+
+    return { message: 'Login bem-sucedido', parceiro };
+    // res.redirect(302, '/clientes/teste');
   }
 }

@@ -25,4 +25,15 @@ export class ManagersService {
   async update(manager: Manager): Promise<Manager> {
     return await this.managersRepository.save(manager);
   }
+
+  async findByLoginAndPassword(
+    login: string,
+    password: string,
+  ): Promise<Manager | null> {
+    const manager = await this.managersRepository.findOne({
+      where: { LOGIN: login, PASSWORD: password },
+    });
+
+    return manager || null;
+  }
 }

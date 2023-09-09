@@ -24,4 +24,15 @@ export class ClientesService {
   async update(cliente: Cliente): Promise<Cliente> {
     return await this.clientesRepository.save(cliente);
   }
+
+  async findByEmailAndPassword(
+    email: string,
+    senha: string,
+  ): Promise<Cliente | null> {
+    const cliente = await this.clientesRepository.findOne({
+      where: { EMAIL: email, SENHA: senha },
+    });
+
+    return cliente || null;
+  }
 }

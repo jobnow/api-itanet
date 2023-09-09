@@ -25,4 +25,15 @@ export class ParceirosService {
   async update(parceiro: Parceiro): Promise<Parceiro> {
     return await this.parceirosRepository.save(parceiro);
   }
+
+  async findByEmailAndPassword(
+    email: string,
+    senha: string,
+  ): Promise<Parceiro | null> {
+    const parceiro = await this.parceirosRepository.findOne({
+      where: { EMAIL: email, SENHA: senha },
+    });
+
+    return parceiro || null;
+  }
 }
