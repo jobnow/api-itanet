@@ -4,12 +4,17 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany,
 } from 'typeorm';
+import { Produto } from '../produtos/produto.entity';
 
 @Entity('SISTEMA_PARCEIRO')
 export class Parceiro {
   @PrimaryGeneratedColumn('uuid')
   ID: string;
+
+  @OneToMany(() => Produto, (produto) => produto.parceiro)
+  produtos: Produto[]; // Crie uma propriedade para os produtos relacionados
 
   @Column({
     type: 'varchar',

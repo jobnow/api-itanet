@@ -17,17 +17,29 @@ import { Manager } from './managers/manager.entity';
 import { ManagersController } from './managers/managers.controller';
 import { ManagersService } from './managers/managers.service';
 import { ManagerValidator } from './managers/manager.validator';
+import { ProdutosModule } from './produtos/produtos.module';
+import { ProdutosController } from './produtos/produtos.controller';
+import { ProdutosService } from './produtos/produtos.service';
+import { Produto } from './produtos/produto.entity';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot(databaseConfig),
-    TypeOrmModule.forFeature([Cliente, Parceiro, Manager]),
+    TypeOrmModule.forFeature([Cliente, Parceiro, Manager, Produto]),
     DatabaseModule,
     ClientesModule,
     ParceirosModule,
     ManagersModule,
+    ProdutosModule,
+    AuthModule,
   ],
-  controllers: [ClientesController, ParceirosController, ManagersController],
+  controllers: [
+    ClientesController,
+    ParceirosController,
+    ManagersController,
+    ProdutosController,
+  ],
   providers: [
     ClientesService,
     ClienteValidator,
@@ -35,6 +47,7 @@ import { ManagerValidator } from './managers/manager.validator';
     ParceiroValidator,
     ManagersService,
     ManagerValidator,
+    ProdutosService,
   ],
 })
 export class AppModule {}

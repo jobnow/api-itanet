@@ -134,7 +134,6 @@ export class ClientesController {
     };
   }
 
-  // @UseGuards(JwtMiddleware)
   // @Get('teste')
   // async teste() {
   //   return {
