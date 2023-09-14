@@ -7,7 +7,7 @@ import { ClientesController } from './clientes/clientes.controller';
 import { DatabaseModule } from './database/database.module';
 import { ClientesModule } from './clientes/clientes.module';
 import { ParceirosModule } from './parceiros/parceiros.module';
-import { ClienteValidator } from './clientes/cliente.validator';
+// import { ClienteValidator } from './clientes/cliente.validator';
 import { ParceirosService } from './parceiros/parceiros.service';
 import { ParceirosController } from './parceiros/parceiros.controller';
 import { ParceiroValidator } from './parceiros/parceiro.validator';
@@ -22,32 +22,39 @@ import { ProdutosController } from './produtos/produtos.controller';
 import { ProdutosService } from './produtos/produtos.service';
 import { Produto } from './produtos/produto.entity';
 import { AuthModule } from './auth/auth.module';
+import { BannersModule } from './banners/banners.module';
+import { BannersController } from './banners/banners.controller';
+import { BannersService } from './banners/banners.service';
+import { Banner } from './banners/banner.entity';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot(databaseConfig),
-    TypeOrmModule.forFeature([Cliente, Parceiro, Manager, Produto]),
+    TypeOrmModule.forFeature([Cliente, Parceiro, Manager, Produto, Banner]),
     DatabaseModule,
     ClientesModule,
     ParceirosModule,
     ManagersModule,
     ProdutosModule,
     AuthModule,
+    BannersModule,
   ],
   controllers: [
     ClientesController,
     ParceirosController,
     ManagersController,
     ProdutosController,
+    BannersController,
   ],
   providers: [
     ClientesService,
-    ClienteValidator,
+    // ClienteValidator,
     ParceirosService,
     ParceiroValidator,
     ManagersService,
     ManagerValidator,
     ProdutosService,
+    BannersService,
   ],
 })
 export class AppModule {}

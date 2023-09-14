@@ -4,11 +4,11 @@ import { Cliente } from './cliente.entity';
 import { ClientesService } from './clientes.service';
 import { ClientesController } from './clientes.controller';
 import { DatabaseModule } from '../database/database.module';
-import { ClienteValidator } from './cliente.validator';
+// import { ClienteValidator } from './cliente.validator';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Cliente]), DatabaseModule],
   controllers: [ClientesController],
-  providers: [ClientesService, ClienteValidator],
+  providers: [ClientesService],
 })
 export class ClientesModule {}

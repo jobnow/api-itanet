@@ -10,7 +10,7 @@ import {
 import { DatabaseService } from '../database/database.service';
 import { ClientesService } from './clientes.service';
 import { Cliente } from './cliente.entity';
-import { ClienteValidator } from './cliente.validator';
+// import { ClienteValidator } from './cliente.validator';
 import * as jwt from 'jsonwebtoken';
 import { config } from 'dotenv';
 // import { JwtMiddleware } from '../auth/middleware.config';
@@ -21,8 +21,7 @@ config();
 export class ClientesController {
   constructor(
     private readonly databaseService: DatabaseService,
-    private readonly clientesService: ClientesService,
-    private readonly clienteValidator: ClienteValidator,
+    private readonly clientesService: ClientesService, // private readonly clienteValidator: ClienteValidator,
   ) {}
 
   @Get()
@@ -84,11 +83,11 @@ export class ClientesController {
     description: 'Cadastro do cliente feito com sucesso!',
   })
   async create(@Body() cliente: Cliente) {
-    const validationErrors = await this.clienteValidator.validate(cliente);
+    // const validationErrors = await this.clienteValidator.validate(cliente);
 
-    if (validationErrors.length > 0) {
-      return { errors: validationErrors };
-    }
+    // if (validationErrors.length > 0) {
+    //   return { errors: validationErrors };
+    // }
 
     return this.clientesService.create(cliente);
   }

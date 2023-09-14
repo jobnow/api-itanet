@@ -42,7 +42,6 @@ export class ParceirosController {
           CEP: '12345-678',
           ESTADO: 'SP',
           CIDADE: 'São Paulo',
-          BAIRRO: 'Bairro',
           ENDERECO: 'Endereço',
           REPRESENTANTE: 'Cleber',
           EMAIL: 'parceiro@example.com',
