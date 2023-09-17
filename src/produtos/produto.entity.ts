@@ -79,3 +79,13 @@ export class Produto {
   @Column({ type: 'char', length: 1, default: '0', comment: 'Deletado' })
   DELETED: string;
 }
+
+// @Entity('VANTAGEM_IMAGENS')
+// export class Imagem {
+//   @PrimaryGeneratedColumn('uuid')
+//   ID: string;
+//   @Column({ type: 'varchar', length: 36, nullable: false })
+//   VANTAGEM_ID: string;
+//   @Column({ type: 'varchar', length: 225, nullable: false })
+//   IMG_FOTO: string;
+// }

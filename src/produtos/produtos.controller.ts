@@ -20,15 +20,6 @@ export class ProdutosController {
     return this.produtosService.findAll();
   }
 
-  @Get(':id')
-  async getProductDetails(@Param('id') productId: string) {
-    const product = await this.produtosService.getProductById(productId);
-    if (!product) {
-      throw new NotFoundException('Produto não encontrado');
-    }
-    return { data: product };
-  }
-
   @Post('listar-home')
   async listarHome() {
     return this.produtosService.listarHome();
@@ -37,6 +28,15 @@ export class ProdutosController {
   @Post('listar-delivery')
   async listarDelivery() {
     return this.produtosService.listarDelivery();
+  }
+
+  @Post(':id')
+  async getProductDetails(@Param('id') productId: string) {
+    const product = await this.produtosService.getProductById(productId);
+    if (!product) {
+      throw new NotFoundException('Produto não encontrado');
+    }
+    return { data: product };
   }
 
   @Post()

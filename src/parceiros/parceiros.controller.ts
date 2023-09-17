@@ -161,11 +161,14 @@ export class ParceirosController {
       return { error: 'Credenciais inválidas' };
     }
 
-    jwt.sign({ parceiroId: parceiro.ID }, process.env.JWT_SECRET, {
-      expiresIn: '1h',
-    });
+    const token = jwt.sign(
+      { parceiroId: parceiro.ID },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: '1h',
+      },
+    );
 
-    return { message: 'Login bem-sucedido', parceiro };
-    // res.redirect(302, '/clientes/teste');
+    return { message: 'Login bem-sucedido', parceiro, token };
   }
 }

@@ -81,7 +81,41 @@ export class ProdutosService {
     }
   }
 
-  async getProductById(id: string): Promise<Produto | undefined> {
-    return await this.produtosRepository.findOne({ where: { ID: id } });
+  // async getProductById(id: string): Promise<Produto | undefined> {
+  //   return await this.produtosRepository.findOne({ where: { ID: id } });
+  // }
+
+  async getProductById(id: string) {
+    try {
+      const [vantagemRows] = await this.databaseService.query(
+        'SELECT * FROM SISTEMA_VANTAGEM WHERE ID = ?',
+        [id],
+      );
+
+      const vantagem = vantagemRows;
+
+      const [parceiroRows] = await this.databaseService.query(
+        'SELECT * FROM SISTEMA_PARCEIRO WHERE ID = ?',
+        [vantagem.ID_PARCEIRO],
+      );
+
+      const imagensRows = await this.databaseService.query(
+        'SELECT * FROM VANTAGEM_IMAGENS WHERE VANTAGEM_ID = ?',
+        [vantagem.ID],
+      );
+
+      const imagens = [];
+
+      for (const imagemRow of imagensRows) {
+        imagens.push(imagemRow);
+      }
+
+      vantagem.Imagens = imagens;
+      vantagem.Parceiro = parceiroRows;
+
+      return vantagem;
+    } catch (err) {
+      throw new Error(err.message);
+    }
   }
 }
