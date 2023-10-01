@@ -67,7 +67,7 @@ export class ProdutosService {
             'SELECT * FROM VANTAGEM_IMAGENS WHERE VANTAGEM_ID = ?',
             [vantagem.ID],
           );
-          vantagem.Imagens = imagensRows; // Adicione as imagens à vantagem
+          vantagem.Imagens = imagensRows;
           vantagensComImagens.push(vantagem);
         }
 

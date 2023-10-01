@@ -15,11 +15,11 @@ export class Produto {
   ID: string;
 
   @Column({ type: 'varchar', length: 36, nullable: false })
-  ID_PARCEIRO: string; // Coluna que armazenará o ID do parceiro
+  ID_PARCEIRO: string;
 
   @ManyToOne(() => Parceiro, (parceiro) => parceiro.produtos)
   @JoinColumn({ name: 'ID_PARCEIRO', referencedColumnName: 'ID' })
-  parceiro: Parceiro; // Propriedade para representar o parceiro relacionado
+  parceiro: Parceiro;
 
   @Column({ type: 'varchar', length: 255, nullable: false, comment: 'Nome' })
   NAME: string;

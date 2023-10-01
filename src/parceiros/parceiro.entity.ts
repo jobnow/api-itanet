@@ -24,34 +24,34 @@ export class Parceiro {
   })
   NAME: string;
 
-  @Column({ type: 'varchar', length: 255, nullable: false, comment: 'Logo' })
+  @Column({ type: 'varchar', length: 255, nullable: true, comment: 'Logo' })
   IMG_LOGO: string;
 
   @Column({ type: 'varchar', length: 50, nullable: false, comment: 'Telefone' })
   TELEFONE: string;
 
-  @Column({ type: 'varchar', length: 50, nullable: false, comment: 'CNPJ' })
+  @Column({ type: 'varchar', length: 50, nullable: true, comment: 'CNPJ' })
   CNPJ: string;
 
-  @Column({ type: 'varchar', length: 50, nullable: false, comment: 'CEP' })
+  @Column({ type: 'varchar', length: 50, nullable: true, comment: 'CEP' })
   CEP: string;
 
-  @Column({ type: 'varchar', length: 50, nullable: false, comment: 'Estado' })
+  @Column({ type: 'varchar', length: 50, nullable: true, comment: 'Estado' })
   ESTADO: string;
 
-  @Column({ type: 'varchar', length: 50, nullable: false, comment: 'Cidade' })
+  @Column({ type: 'varchar', length: 50, nullable: true, comment: 'Cidade' })
   CIDADE: string;
 
-  @Column({ type: 'varchar', length: 50, nullable: false, comment: 'Bairro' })
+  @Column({ type: 'varchar', length: 50, nullable: true, comment: 'Bairro' })
   BAIRRO: string;
 
-  @Column({ type: 'varchar', length: 50, nullable: false, comment: 'Endereço' })
+  @Column({ type: 'varchar', length: 50, nullable: true, comment: 'Endereço' })
   ENDERECO: string;
 
   @Column({
     type: 'varchar',
     length: 50,
-    nullable: false,
+    nullable: true,
     comment: 'Representante',
   })
   REPRESENTANTE: string;
@@ -62,7 +62,7 @@ export class Parceiro {
   @Column({
     type: 'varchar',
     length: 50,
-    nullable: false,
+    nullable: true,
     comment: 'Telefone Celular',
   })
   TELEFONE_CELULAR: string;
@@ -79,7 +79,7 @@ export class Parceiro {
   @Column({
     type: 'char',
     length: 1,
-    nullable: false,
+    nullable: true,
     default: 'N',
     comment: 'Delivery?',
   })

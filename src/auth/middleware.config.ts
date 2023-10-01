@@ -11,7 +11,6 @@
 
 //     if (token) {
 //       try {
-//         // Verifique o token JWT usando sua chave secreta
 //         const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
 //         req['partnerId'] = decodedToken['partnerId']; // Adicione o ID do parceiro à solicitação
 //         next();

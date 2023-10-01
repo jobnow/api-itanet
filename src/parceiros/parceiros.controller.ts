@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Put,
+  // Request,
+} from '@nestjs/common';
 import { DatabaseService } from '../database/database.service';
 import { ParceirosService } from './parceiros.service';
 import { ParceiroValidator } from './parceiro.validator';
@@ -171,4 +179,10 @@ export class ParceirosController {
 
     return { message: 'Login bem-sucedido', parceiro, token };
   }
+  // @Get('user-info')
+  // async getUserInfo(@Request() req) {
+  //   const token = req.headers.authorization.split(' ')[1];
+  //   const user = await this.parceirosService.getUserByToken(token);
+  //   return user;
+  // }
 }
