@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Manager } from './manager.entity';
+import * as bcrypt from 'bcryptjs';
 
 @Injectable()
 export class ManagersService {
@@ -11,6 +12,12 @@ export class ManagersService {
   ) {}
 
   async create(manager: Manager): Promise<Manager> {
+    const saltRounds = 10;
+
+    const hashedPassword = await bcrypt.hash(manager.PASSWORD, saltRounds);
+
+    manager.PASSWORD = hashedPassword;
+
     return await this.managersRepository.save(manager);
   }
 
@@ -26,12 +33,9 @@ export class ManagersService {
     return await this.managersRepository.save(manager);
   }
 
-  async findByLoginAndPassword(
-    login: string,
-    password: string,
-  ): Promise<Manager | null> {
+  async findByLogin(login: string): Promise<Manager | null> {
     const manager = await this.managersRepository.findOne({
-      where: { LOGIN: login, PASSWORD: password },
+      where: { LOGIN: login },
     });
 
     return manager || null;

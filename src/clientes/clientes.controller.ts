@@ -15,6 +15,8 @@ import * as jwt from 'jsonwebtoken';
 import { config } from 'dotenv';
 // import { JwtMiddleware } from '../auth/middleware.config';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import * as bcrypt from 'bcryptjs';
+
 config();
 @Controller('clientes')
 @ApiTags('clientes')
@@ -177,12 +179,15 @@ export class ClientesController {
       return { error: 'A senha é obrigatória' };
     }
 
-    const cliente = await this.clientesService.findByEmailAndPassword(
-      EMAIL,
-      SENHA,
-    );
+    const cliente = await this.clientesService.findByEmail(EMAIL);
 
     if (!cliente) {
+      return { error: 'Credenciais inválidas' };
+    }
+
+    const passwordMatch = await bcrypt.compare(SENHA, cliente.SENHA);
+
+    if (!passwordMatch) {
       return { error: 'Credenciais inválidas' };
     }
 

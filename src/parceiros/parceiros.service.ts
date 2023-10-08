@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Parceiro } from './parceiro.entity';
 // import { JwtService } from '@nestjs/jwt';
+import * as bcrypt from 'bcryptjs';
 
 @Injectable()
 export class ParceirosService {
@@ -12,6 +13,12 @@ export class ParceirosService {
   ) {}
 
   async create(parceiro: Parceiro): Promise<Parceiro> {
+    const saltRounds = 10;
+
+    const hashedPassword = await bcrypt.hash(parceiro.SENHA, saltRounds);
+
+    parceiro.SENHA = hashedPassword;
+
     return await this.parceirosRepository.save(parceiro);
   }
 
@@ -27,25 +34,11 @@ export class ParceirosService {
     return await this.parceirosRepository.save(parceiro);
   }
 
-  async findByEmailAndPassword(
-    email: string,
-    senha: string,
-  ): Promise<Parceiro | null> {
+  async findByEmail(email: string): Promise<Parceiro | null> {
     const parceiro = await this.parceirosRepository.findOne({
-      where: { EMAIL: email, SENHA: senha },
+      where: { EMAIL: email },
     });
 
     return parceiro || null;
   }
-
-  // async getUserByToken(token: string): Promise<Parceiro | null> {
-  //   try {
-  //     const decoded = this.jwtService.verify(token);
-  //     const userId = decoded.sub; // Suponhamos que o token contenha o ID do usuário no campo "sub"
-
-  //     return await this.parceirosRepository.findOne(userId);
-  //   } catch (error) {
-  //     return null; // Retorne null se houver erro na verificação do token ou se o usuário não for encontrado
-  //   }
-  // }
 }

@@ -6,6 +6,8 @@ import { ManagerValidator } from './manager.validator';
 import * as jwt from 'jsonwebtoken';
 import { config } from 'dotenv';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import * as bcrypt from 'bcryptjs';
+
 config();
 
 @Controller('managers')
@@ -139,20 +141,22 @@ export class ManagersController {
       return { error: 'A senha é obrigatória' };
     }
 
-    const manager = await this.managersService.findByLoginAndPassword(
-      LOGIN,
-      PASSWORD,
-    );
+    const manager = await this.managersService.findByLogin(LOGIN);
 
     if (!manager) {
       return { error: 'Credenciais inválidas' };
     }
 
-    jwt.sign({ managerId: manager.ID }, process.env.JWT_SECRET, {
+    const passwordMatch = await bcrypt.compare(PASSWORD, manager.PASSWORD);
+
+    if (!passwordMatch) {
+      return { error: 'Credenciais inválidas' };
+    }
+
+    const token = jwt.sign({ managerId: manager.ID }, process.env.JWT_SECRET, {
       expiresIn: '1h',
     });
 
-    return { message: 'Login bem-sucedido', manager };
-    // res.redirect(302, '/clientes/teste');
+    return { message: 'Login bem-sucedido', manager, token };
   }
 }

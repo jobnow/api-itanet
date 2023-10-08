@@ -13,6 +13,7 @@ import { ParceiroValidator } from './parceiro.validator';
 import { Parceiro } from './parceiro.entity';
 import * as jwt from 'jsonwebtoken';
 import { config } from 'dotenv';
+import * as bcrypt from 'bcryptjs';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 config();
 
@@ -152,23 +153,21 @@ export class ParceirosController {
   async login(@Body() loginData: { EMAIL: string; SENHA: string }) {
     const { EMAIL, SENHA } = loginData;
 
-    if (!EMAIL) {
-      return { error: 'O email é obrigatório' };
+    if (!EMAIL || !SENHA) {
+      return { error: 'O email e a senha são obrigatórios' };
     }
 
-    if (!SENHA) {
-      return { error: 'A senha é obrigatória' };
-    }
-
-    const parceiro = await this.parceirosService.findByEmailAndPassword(
-      EMAIL,
-      SENHA,
-    );
+    const parceiro = await this.parceirosService.findByEmail(EMAIL);
 
     if (!parceiro) {
-      return { error: 'Credenciais inválidas' };
+      return { error: 'Usuário não encontrado' };
     }
 
+    const passwordMatch = await bcrypt.compare(SENHA, parceiro.SENHA);
+
+    if (!passwordMatch) {
+      return { error: 'Credenciais inválidas' };
+    }
     const token = jwt.sign(
       { parceiroId: parceiro.ID },
       process.env.JWT_SECRET,
@@ -179,10 +178,4 @@ export class ParceirosController {
 
     return { message: 'Login bem-sucedido', parceiro, token };
   }
-  // @Get('user-info')
-  // async getUserInfo(@Request() req) {
-  //   const token = req.headers.authorization.split(' ')[1];
-  //   const user = await this.parceirosService.getUserByToken(token);
-  //   return user;
-  // }
 }

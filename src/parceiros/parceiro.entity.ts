@@ -67,7 +67,7 @@ export class Parceiro {
   })
   TELEFONE_CELULAR: string;
 
-  @Column({ type: 'varchar', length: 50, nullable: false })
+  @Column({ type: 'varchar', length: 100, nullable: false })
   SENHA: string;
 
   @Column({ type: 'varchar', length: 50, nullable: true, comment: 'Latitude' })

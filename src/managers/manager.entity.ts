@@ -20,7 +20,7 @@ export class Manager {
   @Column({ type: 'char', length: 50, nullable: false })
   LOGIN: string;
 
-  @Column({ type: 'char', length: 50, nullable: false })
+  @Column({ type: 'char', length: 100, nullable: false })
   PASSWORD: string;
 
   @Column({ type: 'varchar', length: 255, nullable: true })
