@@ -1,26 +1,29 @@
-// import { Injectable, NestMiddleware } from '@nestjs/common';
-// import { Request, Response, NextFunction } from 'express';
-// import * as jwt from 'jsonwebtoken';
-// import { config } from 'dotenv';
-// config();
-// @Injectable()
-// export class JwtMiddleware implements NestMiddleware {
-//   use(req: Request, res: Response, next: NextFunction) {
-//     // Obtenha o token JWT do cabeçalho da solicitação
-//     const token = req.headers.authorization?.split(' ')[1];
+import { ExtractJwt, Strategy } from 'passport-jwt';
+import { PassportStrategy } from '@nestjs/passport';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { config } from 'dotenv';
+import { ParceirosService } from '../parceiros/parceiros.service';
 
-//     if (token) {
-//       try {
-//         const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-//         req['partnerId'] = decodedToken['partnerId']; // Adicione o ID do parceiro à solicitação
-//         next();
-//       } catch (error) {
-//         // Token inválido
-//         res.status(401).json({ message: 'Token JWT inválido' });
-//       }
-//     } else {
-//       // Token não fornecido
-//       res.status(401).json({ message: 'Token JWT não fornecido' });
-//     }
-//   }
-// }
+config();
+
+@Injectable()
+export class JwtStrategy extends PassportStrategy(Strategy) {
+  constructor(private readonly parceirosService: ParceirosService) {
+    super({
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      secretOrKey: process.env.JWT_SECRET,
+    });
+  }
+
+  async validate(payload: any) {
+    const parceiro = await this.parceirosService.findOneById(
+      payload.parceiroId,
+    );
+
+    if (!parceiro) {
+      throw new UnauthorizedException('Usuário não encontrado.');
+    }
+
+    return parceiro;
+  }
+}

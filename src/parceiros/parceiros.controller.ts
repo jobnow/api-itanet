@@ -5,6 +5,8 @@ import {
   Param,
   Post,
   Put,
+  Request,
+  // UseGuards,
   // Request,
 } from '@nestjs/common';
 import { DatabaseService } from '../database/database.service';
@@ -15,6 +17,7 @@ import * as jwt from 'jsonwebtoken';
 import { config } from 'dotenv';
 import * as bcrypt from 'bcryptjs';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+// import { AuthGuard } from '@nestjs/passport';
 config();
 
 @Controller('parceiros')
@@ -36,6 +39,17 @@ export class ParceirosController {
     const sql = 'SELECT * FROM SISTEMA_PARCEIRO';
     const parceiros = await this.databaseService.query(sql);
     return parceiros;
+  }
+
+  @Get('user-data')
+  @ApiOperation({ summary: 'Obter dados do usuário autenticado' })
+  @ApiResponse({
+    status: 200,
+    description: 'Dados do usuário retornados com sucesso!',
+  })
+  async getUserData(@Request() req) {
+    const user = req.parceiro;
+    return { ...user, SENHA: undefined };
   }
 
   @ApiBody({
@@ -75,6 +89,14 @@ export class ParceirosController {
     description: 'Cadastro do parceiro feito com sucesso!',
   })
   async create(@Body() parceiro: Parceiro) {
+    const existingParceiro = await this.parceirosService.findByEmail(
+      parceiro.EMAIL,
+    );
+
+    if (existingParceiro) {
+      return { error: 'Este email já está registrado' };
+    }
+
     const validationErrors = await this.parceiroValidator.validate(parceiro);
 
     if (validationErrors.length > 0) {
@@ -176,6 +198,25 @@ export class ParceirosController {
       },
     );
 
-    return { message: 'Login bem-sucedido', parceiro, token };
+    return { message: 'Login bem-sucedido', parceiro, token, statusCode: 200 };
+  }
+
+  @Post('check-email')
+  async checkEmailExists(@Body() data: { EMAIL: string }) {
+    const { EMAIL } = data;
+
+    const existingParceiro = await this.parceirosService.findByEmail(EMAIL);
+
+    if (existingParceiro) {
+      return {
+        message: `O email ${EMAIL} já está em uso`,
+        emailExists: true, // Indica que o email já existe
+      };
+    } else {
+      return {
+        message: `O email ${EMAIL} ainda não está em uso`,
+        emailExists: false, // Indica que o email não existe
+      };
+    }
   }
 }

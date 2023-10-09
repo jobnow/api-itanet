@@ -26,6 +26,8 @@ import { BannersModule } from './banners/banners.module';
 import { BannersController } from './banners/banners.controller';
 import { BannersService } from './banners/banners.service';
 import { Banner } from './banners/banner.entity';
+import { JwtModule } from '@nestjs/jwt';
+import { JwtStrategy } from './auth/middleware.config';
 
 @Module({
   imports: [
@@ -38,6 +40,10 @@ import { Banner } from './banners/banner.entity';
     ProdutosModule,
     AuthModule,
     BannersModule,
+    JwtModule.register({
+      secret: process.env.JWT_SECRET,
+      signOptions: { expiresIn: '1h' },
+    }),
   ],
   controllers: [
     ClientesController,
@@ -55,6 +61,7 @@ import { Banner } from './banners/banner.entity';
     ManagerValidator,
     ProdutosService,
     BannersService,
+    JwtStrategy,
   ],
 })
 export class AppModule {}
