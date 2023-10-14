@@ -212,6 +212,8 @@ export class ParceirosController {
         message: `O email ${EMAIL} já está em uso`,
         emailExists: true, // Indica que o email já existe
       };
+    } else if (existingParceiro === null) {
+      return;
     } else {
       return {
         message: `O email ${EMAIL} ainda não está em uso`,

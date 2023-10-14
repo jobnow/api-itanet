@@ -11,7 +11,7 @@ export class BannersController {
     private readonly bannersService: BannersService,
   ) {}
 
-  @Post()
+  @Get()
   @ApiOperation({ summary: 'Lista todos os banners ativos' })
   @ApiResponse({
     status: 200,

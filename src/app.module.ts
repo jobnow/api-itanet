@@ -28,17 +28,29 @@ import { BannersService } from './banners/banners.service';
 import { Banner } from './banners/banner.entity';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './auth/middleware.config';
+import { TaxasModule } from './taxas/taxas.module';
+import { TaxasController } from './taxas/taxas.controller';
+import { TaxasService } from './taxas/taxas.service';
+import { Taxa } from './taxas/taxa.entity';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot(databaseConfig),
-    TypeOrmModule.forFeature([Cliente, Parceiro, Manager, Produto, Banner]),
+    TypeOrmModule.forFeature([
+      Cliente,
+      Parceiro,
+      Manager,
+      Produto,
+      Banner,
+      Taxa,
+    ]),
     DatabaseModule,
     ClientesModule,
     ParceirosModule,
     ManagersModule,
     ProdutosModule,
     AuthModule,
+    TaxasModule,
     BannersModule,
     JwtModule.register({
       secret: process.env.JWT_SECRET,
@@ -51,6 +63,7 @@ import { JwtStrategy } from './auth/middleware.config';
     ManagersController,
     ProdutosController,
     BannersController,
+    TaxasController,
   ],
   providers: [
     ClientesService,
@@ -58,6 +71,7 @@ import { JwtStrategy } from './auth/middleware.config';
     ParceirosService,
     ParceiroValidator,
     ManagersService,
+    TaxasService,
     ManagerValidator,
     ProdutosService,
     BannersService,

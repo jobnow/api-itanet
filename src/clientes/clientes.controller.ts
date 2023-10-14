@@ -198,4 +198,25 @@ export class ClientesController {
     return { message: 'Login bem-sucedido', cliente };
     // res.redirect(302, '/clientes/teste');
   }
+
+  @Post('check-email')
+  async checkEmailExists(@Body() data: { EMAIL: string }) {
+    const { EMAIL } = data;
+
+    const existingParceiro = await this.clientesService.findByEmail(EMAIL);
+
+    if (existingParceiro) {
+      return {
+        message: `O email ${EMAIL} já está em uso`,
+        emailExists: true, // Indica que o email já existe
+      };
+    } else if (existingParceiro === null) {
+      return;
+    } else {
+      return {
+        message: `O email ${EMAIL} ainda não está em uso`,
+        emailExists: false, // Indica que o email não existe
+      };
+    }
+  }
 }

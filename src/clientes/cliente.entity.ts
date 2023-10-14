@@ -35,6 +35,9 @@ export class Cliente {
   @Column('text', { nullable: true })
   CARTAO: string;
 
+  @Column('text', { nullable: true })
+  VALIDADO: string;
+
   @Column({ length: 255, nullable: true })
   ITACOINS: string;
 

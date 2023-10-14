@@ -81,6 +81,30 @@ export class ProdutosService {
     }
   }
 
+  async listarCategoria() {
+    try {
+      const vantagemRows = await this.databaseService.query(
+        'SELECT * FROM SISTEMA_VANTAGEM',
+      );
+
+      const result = [];
+
+      for (const vantagem of vantagemRows) {
+        const categoriaRows = await this.databaseService.query(
+          'SELECT * FROM SISTEMA_CATEGORIA WHERE ID = ?',
+          [vantagem.ID_CATEGORIA],
+        );
+
+        vantagem.Categoria = categoriaRows[0];
+        result.push(vantagem);
+      }
+
+      return { data: result };
+    } catch (err) {
+      throw new Error(err.message);
+    }
+  }
+
   // async getProductById(id: string): Promise<Produto | undefined> {
   //   return await this.produtosRepository.findOne({ where: { ID: id } });
   // }

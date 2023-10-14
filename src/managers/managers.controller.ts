@@ -144,7 +144,7 @@ export class ManagersController {
     const manager = await this.managersService.findByLogin(LOGIN);
 
     if (!manager) {
-      return { error: 'Credenciais inválidas' };
+      return { error: 'Manager não encontrado' };
     }
 
     const passwordMatch = await bcrypt.compare(PASSWORD, manager.PASSWORD);
@@ -157,6 +157,6 @@ export class ManagersController {
       expiresIn: '1h',
     });
 
-    return { message: 'Login bem-sucedido', manager, token };
+    return { message: 'Login bem-sucedido', manager, token, statusCode: 200 };
   }
 }

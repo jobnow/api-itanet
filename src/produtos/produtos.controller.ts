@@ -30,6 +30,11 @@ export class ProdutosController {
     return this.produtosService.listarDelivery();
   }
 
+  @Post('listar-categoria')
+  async listarCategoria() {
+    return this.produtosService.listarCategoria();
+  }
+
   @Post(':id')
   async getProductDetails(@Param('id') productId: string) {
     const product = await this.produtosService.getProductById(productId);
