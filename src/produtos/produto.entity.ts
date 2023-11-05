@@ -6,8 +6,10 @@ import {
   UpdateDateColumn,
   ManyToOne,
   JoinColumn,
+  OneToMany,
 } from 'typeorm';
 import { Parceiro } from '../parceiros/parceiro.entity';
+import { Compra } from 'src/compras/compra.entity';
 
 @Entity('SISTEMA_VANTAGEM')
 export class Produto {
@@ -20,6 +22,9 @@ export class Produto {
   @ManyToOne(() => Parceiro, (parceiro) => parceiro.produtos)
   @JoinColumn({ name: 'ID_PARCEIRO', referencedColumnName: 'ID' })
   parceiro: Parceiro;
+
+  @OneToMany(() => Compra, (compra) => compra.produtos)
+  compras: Compra[];
 
   @Column({ type: 'varchar', length: 255, nullable: false, comment: 'Nome' })
   NAME: string;

@@ -1,9 +1,11 @@
+import { Compra } from 'src/compras/compra.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany,
 } from 'typeorm';
 
 @Entity('SISTEMA_CLIENTE')
@@ -19,6 +21,9 @@ export class Cliente {
 
   @Column({ length: 255 })
   SENHA: string;
+
+  @OneToMany(() => Compra, (compra) => compra.produtos)
+  compras: Compra[];
 
   @Column({ type: 'date', nullable: true })
   DT_NASCIMENTO: Date;

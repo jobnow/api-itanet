@@ -26,11 +26,22 @@ import { BannersModule } from './banners/banners.module';
 import { BannersController } from './banners/banners.controller';
 import { BannersService } from './banners/banners.service';
 import { Banner } from './banners/banner.entity';
+import { Compra } from './compras/compra.entity';
+import { ComprasModule } from './compras/compras.module';
+import { ComprasController } from './compras/compras.controller';
+import { ComprasService } from './compras/compras.service';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot(databaseConfig),
-    TypeOrmModule.forFeature([Cliente, Parceiro, Manager, Produto, Banner]),
+    TypeOrmModule.forFeature([
+      Cliente,
+      Parceiro,
+      Manager,
+      Produto,
+      Banner,
+      Compra,
+    ]),
     DatabaseModule,
     ClientesModule,
     ParceirosModule,
@@ -38,6 +49,7 @@ import { Banner } from './banners/banner.entity';
     ProdutosModule,
     AuthModule,
     BannersModule,
+    ComprasModule,
   ],
   controllers: [
     ClientesController,
@@ -45,16 +57,17 @@ import { Banner } from './banners/banner.entity';
     ManagersController,
     ProdutosController,
     BannersController,
+    ComprasController,
   ],
   providers: [
     ClientesService,
-    // ClienteValidator,
     ParceirosService,
     ParceiroValidator,
     ManagersService,
     ManagerValidator,
     ProdutosService,
     BannersService,
+    ComprasService,
   ],
 })
 export class AppModule {}
