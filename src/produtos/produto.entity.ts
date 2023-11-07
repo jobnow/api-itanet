@@ -23,7 +23,7 @@ export class Produto {
   @JoinColumn({ name: 'ID_PARCEIRO', referencedColumnName: 'ID' })
   parceiro: Parceiro;
 
-  @OneToMany(() => Compra, (compra) => compra.produtos)
+  @OneToMany(() => Compra, (compra) => compra.produto)
   compras: Compra[];
 
   @Column({ type: 'varchar', length: 255, nullable: false, comment: 'Nome' })

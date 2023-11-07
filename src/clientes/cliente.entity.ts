@@ -22,7 +22,7 @@ export class Cliente {
   @Column({ length: 255 })
   SENHA: string;
 
-  @OneToMany(() => Compra, (compra) => compra.produtos)
+  @OneToMany(() => Compra, (compra) => compra.produto)
   compras: Compra[];
 
   @Column({ type: 'date', nullable: true })

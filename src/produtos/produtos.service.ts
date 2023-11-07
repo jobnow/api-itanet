@@ -19,6 +19,10 @@ export class ProdutosService {
     return await this.produtosRepository.find();
   }
 
+  async findOneById(id: string): Promise<Produto | undefined> {
+    return this.produtosRepository.findOne({ where: { ID: id } });
+  }
+
   async listarHome() {
     try {
       const vantagemRows = await this.databaseService.query(
