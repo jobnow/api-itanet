@@ -98,4 +98,43 @@ export class ComprasController {
       }
     }
   }
+
+  //Testar código sem a api
+
+  // async realizarPagamento(@Body() body: any, @Request() request: any) {
+  //   try {
+  //     const clienteId = request.clienteId;
+
+  //     const produtoId = body.produtoId;
+
+  //     const transaction = {
+  //       amount: body.valor * 100,
+  //       id: 'transaction_test_123',
+  //     };
+
+  //     const compra = {
+  //       valor: transaction.amount / 100,
+  //       descricao: 'Compra simulada',
+  //       ID_CLIENTE: clienteId,
+  //       ID_PRODUTO: produtoId,
+  //       TRANSACTION_ID: transaction.id,
+  //     };
+
+  //     return compra;
+  //   } catch (error) {
+  //     if (error instanceof Error) {
+  //       console.error('Erro simulado:', error);
+  //       throw new HttpException(
+  //         'Erro simulado: ' + error.message,
+  //         HttpStatus.INTERNAL_SERVER_ERROR,
+  //       );
+  //     } else {
+  //       console.error('Erro simulado:', error);
+  //       throw new HttpException(
+  //         'Erro simulado',
+  //         HttpStatus.INTERNAL_SERVER_ERROR,
+  //       );
+  //     }
+  //   }
+  // }
 }

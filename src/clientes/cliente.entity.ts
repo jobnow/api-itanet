@@ -1,4 +1,5 @@
 import { Compra } from 'src/compras/compra.entity';
+import { Pedido } from 'src/pedidos/pedido.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -24,6 +25,9 @@ export class Cliente {
 
   @OneToMany(() => Compra, (compra) => compra.produto)
   compras: Compra[];
+
+  @OneToMany(() => Pedido, (pedido) => pedido.cliente)
+  pedidos: Pedido[];
 
   @Column({ type: 'date', nullable: true })
   DT_NASCIMENTO: Date;
